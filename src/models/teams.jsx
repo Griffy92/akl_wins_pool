@@ -1,4 +1,4 @@
-export const teams = {
+const teams = {
     1: { name: "Atlanta Hawks", image: "hawks.svg" },
     2: { name: "Boston Celtics", image: "celtics.svg" },
     3: { name: "Brooklyn Nets", image: "nets.svg" },
@@ -30,3 +30,5 @@ export const teams = {
     29: { name: "Utah Jazz", image: "jazz.svg" },
     30: { name: "Washington Wizards", image: "wizards.svg" }
 };
+
+export default teams;

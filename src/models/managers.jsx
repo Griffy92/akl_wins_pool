@@ -1,4 +1,4 @@
-export const managers = {
+const managers = {
     1: { name: "Dom" },
     2: { name: "Martin" },
     3: { name: "Si" },
@@ -13,3 +13,5 @@ export const managers = {
     12: { name: "Dobbie"},
     13: { name: "Steve"},
 };
+
+export default managers;

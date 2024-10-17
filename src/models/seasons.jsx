@@ -1,4 +1,4 @@
-export const seasons = [
+const seasons = [
     {
         year: "2023-2024",
         managers: [
@@ -285,7 +285,6 @@ export const seasons = [
         ]
     },
     {
-        id: 1,
         year: "2020-2021",
         managers: [
             {
@@ -381,3 +380,5 @@ export const seasons = [
         ]
     },
 ];
+
+export default seasons;
