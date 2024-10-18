@@ -51,7 +51,7 @@ const LastSeason = () => {
               title: '#',
               dataIndex: ['teams', 0, 'draftPosition'],
               key: 'team1DraftPosition',
-              width: 30,
+              // width: 100,
             },
             {
               title: 'Team',
@@ -68,7 +68,7 @@ const LastSeason = () => {
               title: 'Wins',
               dataIndex: ['teams', 0, 'wins'],
               key: 'team1Wins',
-            //   width: 100,
+              // width: 100,
             }
           ]
         },
@@ -76,24 +76,24 @@ const LastSeason = () => {
           title: 'Team 2',
           children: [
             {
-              title: 'Draft Position',
+              title: '#',
               dataIndex: ['teams', 1, 'draftPosition'],
               key: 'team2DraftPosition',
-              width: 100,
+              // width: 100,
             },
             {
-              title: 'Logo',
+              title: 'Team',
               key: 'team2Logo',
               render: (text, record) => (
                 <Avatar src={record.teams[1].teamImage} style={{ marginRight: 8 }} />
               ),
-              width: 100,
+              // width: 100,
             },
             {
               title: 'Wins',
               dataIndex: ['teams', 1, 'wins'],
               key: 'team2Wins',
-              width: 100,
+            //   width: 100,
             }
           ]
         },
@@ -101,24 +101,24 @@ const LastSeason = () => {
           title: 'Team 3',
           children: [
             {
-				title: 'Draft Position',
+				title: '#',
 				dataIndex: ['teams', 2, 'draftPosition'],
 				key: 'team3DraftPosition',
-				width: 100,
+				// width: 100,
             },
             {
-				title: 'Logo',
+				title: 'Team',
 				key: 'team3Logo',
 				render: (text, record) => (
 				<Avatar src={record.teams[2].teamImage} style={{ marginRight: 8 }} />
 				),
-				width: 100,
+				// width: 100,
             },
             {
 				title: 'Wins',
 				dataIndex: ['teams', 2, 'wins'],
 				key: 'team3Wins',
-				width: 100,
+				// width: 100,
             }
           ]
         },
@@ -129,6 +129,7 @@ const LastSeason = () => {
 					dataIndex: 'totalWins',
 					key: 'totalWins',
 					width: 100,
+					align: 'center'
 			}
 		  ]
         }
@@ -137,7 +138,7 @@ const LastSeason = () => {
     return (
 		<>
 			{ seasonsData.map( seasonData => {
-				console.log(seasonData)
+				// console.log(seasonData)
 				return (
 					<>
 						<Title>{seasonData[0].year} AKL Wins Pool</Title>
