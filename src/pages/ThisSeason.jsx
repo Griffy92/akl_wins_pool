@@ -1,24 +1,32 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import teams from '../models/teams';
-import managers from '../models/managers';
+import thisSeason from '../models/ThisSeasonModel';
+import { Table, Avatar, Typography} from 'antd';
+
+const { Title } = Typography;
 
 const ThisSeason = () => {
 
     const [ tableData, setTableData ] = useState([]);
     const [ error, setError ] = useState([]);
 
-    const calcWinPercentage = ( win, loss ) => {
-        const totalGames = parseInt(win) + parseInt(loss)
-        const winPercent = parseInt(win) / totalGames
-        return totalGames === 0 ? '0%' : `${winPercent}%`
-    }
 
     useEffect( () => {
         axios.get('/.netlify/functions/scrape')
         .then( (response) => {
             console.log(response.data)
-            setTableData(response.data)
+            thisSeason.managers.forEach( manager => {
+                manager.teams.forEach( team => {
+                    const foundTeam = response.data.find( stat => stat.team === team.cbsName)
+                    if ( foundTeam ) {
+                        team.wins = parseInt(foundTeam.wins)
+                        team.loss = parseInt(foundTeam.losses)
+                    }
+                })
+                manager.totalWins = manager.calcTotalWins()
+            })
+            setTableData(thisSeason.managers)
+            console.log(thisSeason)
         }).catch( (error) => {
             setError('Error fetching data from Netlify function')
             console.error(error)
@@ -50,10 +58,7 @@ const ThisSeason = () => {
                     title: 'Team',
                     key: 'team1Logo',
                     render: (text, record) => (
-                    <div>
-                        <Avatar src={record.teams[0].teamImage} style={{ marginRight: 8 }} />
-                        <span>{record.teams[0].team}</span>
-                    </div>
+                        <Avatar src={record.teams[0].image} style={{ marginRight: 8 }} />
                     ),
                 //   width: 100,
                 },
@@ -67,6 +72,11 @@ const ThisSeason = () => {
                     title: 'Loss',
                     dataIndex: ['teams', 0, 'loss'],
                     key: 'team1Loss'
+                },
+                {
+                    title: 'Win %',
+                    dataIndex: ['teams', 0, 'win %'],
+                    key: 'team1WinPercent'
                 }
 			]
 		},
@@ -83,7 +93,7 @@ const ThisSeason = () => {
                     title: 'Team',
                     key: 'team2Logo',
                     render: (text, record) => (
-                    <Avatar src={record.teams[1].teamImage} style={{ marginRight: 8 }} />
+                        <Avatar src={record.teams[1].image} style={{ marginRight: 8 }} />
                     ),
                     // width: 100,
                 },
@@ -92,6 +102,16 @@ const ThisSeason = () => {
                     dataIndex: ['teams', 1, 'wins'],
                     key: 'team2Wins',
                 //   width: 100,
+                },
+                {
+                    title: 'Loss',
+                    dataIndex: ['teams', 1, 'loss'],
+                    key: 'team1Loss'
+                },
+                {
+                    title: 'Win %',
+                    dataIndex: ['teams', 1, 'win %'],
+                    key: 'team1WinPercent'
                 }
 			]
 		},
@@ -108,7 +128,7 @@ const ThisSeason = () => {
                     title: 'Team',
                     key: 'team3Logo',
                     render: (text, record) => (
-                    <Avatar src={record.teams[2].teamImage} style={{ marginRight: 8 }} />
+                        <Avatar src={record.teams[2].image} style={{ marginRight: 8 }} />
                     ),
                     // width: 100,
                 },
@@ -117,6 +137,15 @@ const ThisSeason = () => {
                     dataIndex: ['teams', 2, 'wins'],
                     key: 'team3Wins',
                     // width: 100,
+                },                {
+                    title: 'Loss',
+                    dataIndex: ['teams', 2, 'loss'],
+                    key: 'team1Loss'
+                },
+                {
+                    title: 'Win %',
+                    dataIndex: ['teams', 2, 'win %'],
+                    key: 'team1WinPercent'
                 }
 			]
 		},
@@ -135,6 +164,8 @@ const ThisSeason = () => {
     
     return (
         <>
+            <Title>{thisSeason.year} AKL Wins Pool</Title>
+            <Table columns={columns} dataSource={tableData} />
         </>
     )
 }
