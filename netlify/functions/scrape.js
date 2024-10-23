@@ -15,6 +15,7 @@ export const handler = async (event, context) => {
             rowData.team = $(row).find('td').eq(1).text().trim();
             rowData.wins = $(row).find('td').eq(2).text().trim();
             rowData.losses = $(row).find('td').eq(3).text().trim();
+            rowData.winPercent = $(row).find('td').eq(4).text().trim();
             tableData.push(rowData);
         });
 
