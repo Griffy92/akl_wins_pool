@@ -8,7 +8,11 @@ const ThisSeason = () => {
     const [ tableData, setTableData ] = useState([]);
     const [ error, setError ] = useState([]);
 
-    const calcWinPercentage = ( wins ) => parseInt(wins) / (parseInt(wins) + parseInt(Loss))
+    const calcWinPercentage = ( win, loss ) => {
+        const totalGames = parseInt(win) + parseInt(loss)
+        const winPercent = parseInt(win) / totalGames
+        return totalGames === 0 ? '0%' : `${winPercent}%`
+    }
 
     useEffect( () => {
         axios.get('/.netlify/functions/scrape')
