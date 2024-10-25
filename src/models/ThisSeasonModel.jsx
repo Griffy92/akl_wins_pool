@@ -28,7 +28,7 @@ const thisSeason = {
         {
             managerName: "Nathan",
             teams: [
-                { teamName: "Minnesota Timberwolves", draftPosition: 3, wins: 0, loss: 0, image: "wolves.svg", cbsName: 'Minnesota' },
+                { teamName: "Minnesota Timberwolves", draftPosition: 3, wins: 0, loss: 0, image: "timberwolves.svg", cbsName: 'Minnesota' },
                 { teamName: "New Orleans Pelicans", draftPosition: 13, wins: 0, loss: 0, image: "pelicans.svg", cbsName: 'New Orleans' },
                 { teamName: "Portland Trail Blazers", draftPosition: 28, wins: 0, loss: 0, image: "blazers.svg", cbsName: 'Portland' }
             ],
