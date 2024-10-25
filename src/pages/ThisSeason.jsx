@@ -156,7 +156,9 @@ const ThisSeason = () => {
 					dataIndex: 'totalWins',
 					key: 'totalWins',
 					width: 100,
-					align: 'center'
+					align: 'center',
+                    defaultSortOrder: 'descend',
+                    sorter: (a, b) => a.totalWins - b.totalWins
 			    }
 			]
 		}
