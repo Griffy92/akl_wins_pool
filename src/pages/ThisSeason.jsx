@@ -21,6 +21,7 @@ const ThisSeason = () => {
                     if ( foundTeam ) {
                         team.wins = parseInt(foundTeam.wins)
                         team.loss = parseInt(foundTeam.losses)
+                        team.winPercent = isNaN(parseFloat(foundTeam.winPercent)) ? '-' : `${parseFloat(foundTeam.winPercent) * 100}%`
                     }
                 })
                 manager.totalWins = manager.calcTotalWins()
@@ -75,7 +76,7 @@ const ThisSeason = () => {
                 },
                 {
                     title: 'Win %',
-                    dataIndex: ['teams', 0, 'win %'],
+                    dataIndex: ['teams', 0, 'winPercent'],
                     key: 'team1WinPercent'
                 }
 			]
@@ -110,7 +111,7 @@ const ThisSeason = () => {
                 },
                 {
                     title: 'Win %',
-                    dataIndex: ['teams', 1, 'win %'],
+                    dataIndex: ['teams', 1, 'winPercent'],
                     key: 'team1WinPercent'
                 }
 			]
@@ -144,7 +145,7 @@ const ThisSeason = () => {
                 },
                 {
                     title: 'Win %',
-                    dataIndex: ['teams', 2, 'win %'],
+                    dataIndex: ['teams', 2, 'winPercent'],
                     key: 'team1WinPercent'
                 }
 			]
