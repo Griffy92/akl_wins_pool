@@ -21,7 +21,7 @@ const ThisSeason = () => {
                     if ( foundTeam ) {
                         team.wins = parseInt(foundTeam.wins)
                         team.loss = parseInt(foundTeam.losses)
-                        team.winPercent = isNaN(parseFloat(foundTeam.winPercent)) ? '-' : `${parseFloat(foundTeam.winPercent) * 100}%`
+                        team.winPercent = isNaN(parseFloat(foundTeam.winPercent)) ? '-' : `${parseInt(foundTeam.winPercent * 100)}%`
                     }
                 })
                 manager.totalWins = manager.calcTotalWins()
