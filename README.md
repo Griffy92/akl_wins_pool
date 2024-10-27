@@ -1,8 +1,7 @@
-# React + Vite
+# Auckland Wins Pool
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A WIP [website](https://aklwinspool.netlify.app/) for our NBA fantasy league that helps track the individual and total wins of the teams that we drafted.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+There are currently two views:
+1. This Season - Scrapes data when mounted via a serverless function and visualises it via a table.
+2. Last Season - Previous year's stats hardcoded.
