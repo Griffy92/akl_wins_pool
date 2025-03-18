@@ -17,7 +17,7 @@ const ThisSeason = () => {
             console.log(response.data)
             thisSeason.managers.forEach( manager => {
                 manager.teams.forEach( team => {
-                    const foundTeam = response.data.find( stat => stat.team === team.cbsName)
+                    const foundTeam = response.data.find( stat => stat.team.split(" - ")[0] === team.cbsName)
                     if ( foundTeam ) {
                         team.wins = parseInt(foundTeam.wins)
                         team.loss = parseInt(foundTeam.losses)
