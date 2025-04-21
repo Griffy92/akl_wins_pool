@@ -1,6 +1,6 @@
 # Auckland Wins Pool
 
-A WIP [website](https://aklwinspool.netlify.app/) for our NBA fantasy league that helps track the individual and total wins of the teams that we drafted.
+A WIP [website](https://aklwinspool.netlify.app/) for our NBA fantasy league that helps track the individual and total wins of the teams that we drafted. Currently, the website functions as required but CSS needs alot more love.
 
 There are currently two views:
 1. This Season - Scrapes data when mounted via a serverless function and visualises it via a table.
