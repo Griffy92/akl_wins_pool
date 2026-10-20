@@ -4,6 +4,7 @@ import { Menu } from 'antd';
 const items = [
   { key: '/', label: <Link to="/">This season</Link> },
   { key: '/history', label: <Link to="/history">History</Link> },
+  { key: '/managers', label: <Link to="/managers">Managers</Link> },
 ];
 
 export default function Navbar() {
