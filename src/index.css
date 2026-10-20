@@ -1,68 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --ink: #172033;
+  --muted: #6b7690;
+  --paper: #f4f6f9;
+  --line: #e2e7ef;
+  --leader-bg: #fff4cc;
+  --leader-edge: #e0a800;
+  --display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.5;
 }
 
-h1 {
-  font-size: 3.2em;
+/* Header */
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.site-header .ant-menu {
+  flex: 1;
+  min-width: 0;
+  border-bottom: 0;
+}
+
+/* Page */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+.page-title {
+  margin: 0 0 4px;
+  font-family: var(--display);
+  font-size: 2.4rem;
+  font-weight: 700;
   line-height: 1.1;
 }
+.page-subtitle {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+.page-alert { margin-bottom: 16px; }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+/* Table */
+.season-table .ant-table-thead > tr > th {
+  font-weight: 600;
+  text-align: center;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.season-table .ant-table-thead > tr > th.col-manager { text-align: left; }
+.season-table th.group-start { border-left: 1px solid rgba(255, 255, 255, 0.16); }
+.season-table td.group-start { border-left: 1px solid var(--line); }
+
+.season-table td.col-manager { font-weight: 600; }
+.season-table td.col-rank,
+.season-table td.col-pick { color: var(--muted); }
+.season-table td.col-num,
+.season-table td.col-total,
+.season-table td.col-rank { font-variant-numeric: tabular-nums; }
+.season-table td.col-total {
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 700;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Leader: the one thing that stands out */
+.season-table .ant-table-tbody > tr.row--leader > td { background: var(--leader-bg); }
+.season-table .ant-table-tbody > tr.row--leader > td:first-child { box-shadow: inset 4px 0 0 var(--leader-edge); }
+.season-table .ant-table-tbody > tr.row--leader > td.col-rank { color: var(--ink); font-weight: 700; }
+
+/* Team cell */
+.team-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.team-cell__logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+@media (max-width: 640px) {
+  .site-header { padding: 0 12px; gap: 12px; }
+  .page { padding-top: 20px; }
+  .page-title { font-size: 2rem; }
+  .team-cell__name { display: none; }
 }

@@ -1,176 +1,66 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import thisSeason from '../models/ThisSeasonModel';
-import { Table, Avatar, Typography} from 'antd';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Alert, Button } from 'antd';
+import SeasonTable from '../components/SeasonTable';
+import thisSeason from '../models/thisSeason';
+import { addRanks, formatSeason, mergeStandings, seasonRows } from '../lib/standings';
 
-const { Title } = Typography;
+// Built once. Wins start at 0 until the live standings arrive.
+const baseRows = addRanks(seasonRows(thisSeason));
 
-const ThisSeason = () => {
+export default function ThisSeason() {
+  const [rows, setRows] = useState(baseRows);
+  const [status, setStatus] = useState('loading'); // 'loading' | 'ready' | 'error'
+  const [missing, setMissing] = useState([]);
+  const [attempt, setAttempt] = useState(0);
 
-    const [ tableData, setTableData ] = useState([]);
-    const [ error, setError ] = useState([]);
+  useEffect(() => {
+    const controller = new AbortController();
+    setStatus('loading');
 
+    axios
+      .get('/.netlify/functions/scrape', { signal: controller.signal })
+      .then(({ data }) => {
+        const merged = mergeStandings(baseRows, data);
+        setRows(addRanks(merged.rows));
+        setMissing(merged.missing);
+        setStatus('ready');
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) return;
+        console.error(err);
+        setStatus('error');
+      });
 
-    useEffect( () => {
-        axios.get('/.netlify/functions/scrape')
-        .then( (response) => {
-            console.log(response.data)
-            thisSeason.managers.forEach( manager => {
-                manager.teams.forEach( team => {
-                    const foundTeam = response.data.find( stat => stat.team.split(" - ")[0] === team.cbsName)
-                    if ( foundTeam ) {
-                        team.wins = parseInt(foundTeam.wins)
-                        team.loss = parseInt(foundTeam.losses)
-                        team.winPercent = isNaN(parseFloat(foundTeam.winPercent)) ? '-' : `${parseInt(foundTeam.winPercent * 100)}%`
-                    }
-                })
-                manager.totalWins = manager.calcTotalWins()
-            })
-            setTableData(thisSeason.managers)
-            console.log(thisSeason)
-        }).catch( (error) => {
-            setError('Error fetching data from Netlify function')
-            console.error(error)
-        })
-    }, []);
+    return () => controller.abort();
+  }, [attempt]);
 
-    const columns = [
-		{
-			children: [
-                {
-                    title: 'Manager',
-                    dataIndex: 'managerName',
-                    key: 'manager',
-                    fixed: 'left', // Keep the manager column fixed if desired
-                    // width: 100,
-                }
-			]
-		},
-		{
-			title: 'Team 1',
-			children: [
-                {
-                    title: '#',
-                    dataIndex: ['teams', 0, 'draftPosition'],
-                    key: 'team1DraftPosition',
-                    // width: 100,
-                },
-                {
-                    title: 'Team',
-                    key: 'team1Logo',
-                    render: (text, record) => (
-                        <Avatar src={record.teams[0].image} style={{ marginRight: 8 }} />
-                    ),
-                //   width: 100,
-                },
-                {
-                    title: 'Wins',
-                    dataIndex: ['teams', 0, 'wins'],
-                    key: 'team1Wins',
-                    // width: 100,
-                },
-                {
-                    title: 'Loss',
-                    dataIndex: ['teams', 0, 'loss'],
-                    key: 'team1Loss'
-                },
-                {
-                    title: 'Win %',
-                    dataIndex: ['teams', 0, 'winPercent'],
-                    key: 'team1WinPercent'
-                }
-			]
-		},
-		{
-			title: 'Team 2',
-			children: [
-                {
-                    title: '#',
-                    dataIndex: ['teams', 1, 'draftPosition'],
-                    key: 'team2DraftPosition',
-                    // width: 100,
-                },
-                {
-                    title: 'Team',
-                    key: 'team2Logo',
-                    render: (text, record) => (
-                        <Avatar src={record.teams[1].image} style={{ marginRight: 8 }} />
-                    ),
-                    // width: 100,
-                },
-                {
-                    title: 'Wins',
-                    dataIndex: ['teams', 1, 'wins'],
-                    key: 'team2Wins',
-                //   width: 100,
-                },
-                {
-                    title: 'Loss',
-                    dataIndex: ['teams', 1, 'loss'],
-                    key: 'team1Loss'
-                },
-                {
-                    title: 'Win %',
-                    dataIndex: ['teams', 1, 'winPercent'],
-                    key: 'team1WinPercent'
-                }
-			]
-		},
-		{
-			title: 'Team 3',
-			children: [
-                {
-                    title: '#',
-                    dataIndex: ['teams', 2, 'draftPosition'],
-                    key: 'team3DraftPosition',
-                    // width: 100,
-                },
-                {
-                    title: 'Team',
-                    key: 'team3Logo',
-                    render: (text, record) => (
-                        <Avatar src={record.teams[2].image} style={{ marginRight: 8 }} />
-                    ),
-                    // width: 100,
-                },
-                {
-                    title: 'Wins',
-                    dataIndex: ['teams', 2, 'wins'],
-                    key: 'team3Wins',
-                    // width: 100,
-                },                {
-                    title: 'Loss',
-                    dataIndex: ['teams', 2, 'loss'],
-                    key: 'team1Loss'
-                },
-                {
-                    title: 'Win %',
-                    dataIndex: ['teams', 2, 'winPercent'],
-                    key: 'team1WinPercent'
-                }
-			]
-		},
-		{
-			children: [
-				{
-					title: 'Total Wins',
-					dataIndex: 'totalWins',
-					key: 'totalWins',
-					width: 100,
-					align: 'center',
-                    defaultSortOrder: 'descend',
-                    sorter: (a, b) => a.totalWins - b.totalWins
-			    }
-			]
-		}
-	];
-    
-    return (
-        <>
-            <Title>{thisSeason.year} AKL Wins Pool</Title>
-            <Table columns={columns} dataSource={tableData} />
-        </>
-    )
+  return (
+    <>
+      <h1 className="page-title">{formatSeason(thisSeason.year)} season</h1>
+      <p className="page-subtitle">Total wins across each manager’s three teams.</p>
+
+      {status === 'error' && (
+        <Alert
+          className="page-alert"
+          type="error"
+          showIcon
+          message="Couldn’t load the latest standings"
+          description="Wins are showing as 0 until the standings load."
+          action={<Button size="small" onClick={() => setAttempt((n) => n + 1)}>Try again</Button>}
+        />
+      )}
+      {missing.length > 0 && (
+        <Alert
+          className="page-alert"
+          type="warning"
+          showIcon
+          message={`No standings found for: ${missing.join(', ')}`}
+          description="CBS may have renamed these teams. Update cbsName in src/models/teams.js."
+        />
+      )}
+
+      <SeasonTable rows={rows} showRecord loading={status === 'loading'} />
+    </>
+  );
 }
-
-export default ThisSeason

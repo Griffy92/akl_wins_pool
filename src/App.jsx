@@ -1,20 +1,20 @@
-import './App.css';
-import ThisSeason from './pages/ThisSeason';
-import LastSeason from './pages/LastSeason';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import { BrowserRouter, Router, Routes, Route } from 'react-router-dom';
+import ThisSeason from './pages/ThisSeason';
+import History from './pages/History';
 
-function App() {
-
+export default function App() {
   return (
-	<BrowserRouter>
-		<Navbar />	
-		<Routes>
-			<Route path='/' element={ <ThisSeason />} />
-			<Route path='/historical' element={<LastSeason />} />
-		</Routes>
-	</BrowserRouter>
-  )
+    <BrowserRouter>
+      <Navbar />
+      <main className="page">
+        <Routes>
+          <Route path="/" element={<ThisSeason />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/historical" element={<Navigate to="/history" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+  );
 }
-
-export default App

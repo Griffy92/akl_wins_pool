@@ -1,0 +1,36 @@
+// cbsName is how the team appears on the CBS standings page.
+// image files live in public/logos/
+const teams = {
+  1: { name: 'Atlanta Hawks', image: 'hawks.svg', cbsName: 'Atlanta' },
+  2: { name: 'Boston Celtics', image: 'celtics.svg', cbsName: 'Boston' },
+  3: { name: 'Brooklyn Nets', image: 'nets.svg', cbsName: 'Brooklyn' },
+  4: { name: 'Charlotte Hornets', image: 'hornets.svg', cbsName: 'Charlotte' },
+  5: { name: 'Chicago Bulls', image: 'bulls.svg', cbsName: 'Chicago' },
+  6: { name: 'Cleveland Cavaliers', image: 'cavaliers.svg', cbsName: 'Cleveland' },
+  7: { name: 'Dallas Mavericks', image: 'mavericks.svg', cbsName: 'Dallas' },
+  8: { name: 'Denver Nuggets', image: 'nuggets.svg', cbsName: 'Denver' },
+  9: { name: 'Detroit Pistons', image: 'pistons.svg', cbsName: 'Detroit' },
+  10: { name: 'Golden State Warriors', image: 'warriors.svg', cbsName: 'Golden St.' },
+  11: { name: 'Houston Rockets', image: 'rockets.svg', cbsName: 'Houston' },
+  12: { name: 'Indiana Pacers', image: 'pacers.svg', cbsName: 'Indiana' },
+  13: { name: 'Los Angeles Clippers', image: 'clippers.svg', cbsName: 'L.A. Clippers' },
+  14: { name: 'Los Angeles Lakers', image: 'lakers.svg', cbsName: 'L.A. Lakers' },
+  15: { name: 'Memphis Grizzlies', image: 'grizzlies.svg', cbsName: 'Memphis' },
+  16: { name: 'Miami Heat', image: 'heat.svg', cbsName: 'Miami' },
+  17: { name: 'Milwaukee Bucks', image: 'bucks.svg', cbsName: 'Milwaukee' },
+  18: { name: 'Minnesota Timberwolves', image: 'timberwolves.svg', cbsName: 'Minnesota' },
+  19: { name: 'New Orleans Pelicans', image: 'pelicans.svg', cbsName: 'New Orleans' },
+  20: { name: 'New York Knicks', image: 'knicks.svg', cbsName: 'New York' },
+  21: { name: 'Oklahoma City Thunder', image: 'thunder.svg', cbsName: 'Oklahoma City' },
+  22: { name: 'Orlando Magic', image: 'magic.svg', cbsName: 'Orlando' },
+  23: { name: 'Philadelphia 76ers', image: '76ers.svg', cbsName: 'Philadelphia' },
+  24: { name: 'Phoenix Suns', image: 'suns.svg', cbsName: 'Phoenix' },
+  25: { name: 'Portland Trail Blazers', image: 'blazers.svg', cbsName: 'Portland' },
+  26: { name: 'Sacramento Kings', image: 'kings.svg', cbsName: 'Sacramento' },
+  27: { name: 'San Antonio Spurs', image: 'spurs.svg', cbsName: 'San Antonio' },
+  28: { name: 'Toronto Raptors', image: 'raptors.svg', cbsName: 'Toronto' },
+  29: { name: 'Utah Jazz', image: 'jazz.svg', cbsName: 'Utah' },
+  30: { name: 'Washington Wizards', image: 'wizards.svg', cbsName: 'Washington' },
+};
+
+export default teams;

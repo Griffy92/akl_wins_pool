@@ -1,25 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'antd';
 
-const Navbar = () => {
+const items = [
+  { key: '/', label: <Link to="/">This season</Link> },
+  { key: '/history', label: <Link to="/history">History</Link> },
+];
 
-    const items = [
-        {
-            label: <Link to ="/">Current Season</Link>,
-            key: 'home',
-        },
-        {
-            label: <Link to="/historical">Last Seasons</Link>,
-            key: 'historical',
-        }
-    ]
+export default function Navbar() {
+  const { pathname } = useLocation();
+  const selected = pathname.startsWith('/history') ? '/history' : '/';
 
-    return (
-        <>
-            <Menu mode='horizontal' items={items} />
-        </>
-    )
+  return (
+    <header className="site-header">
+      <span className="brand">AKL Wins Pool</span>
+      <Menu mode="horizontal" items={items} selectedKeys={[selected]} />
+    </header>
+  );
 }
-
-export default Navbar
