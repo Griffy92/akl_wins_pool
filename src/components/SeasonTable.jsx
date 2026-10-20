@@ -57,33 +57,45 @@ export default function SeasonTable({ rows, showRecord = false, loading = false 
   const screens = Grid.useBreakpoint();
   const withRecord = showRecord && Boolean(screens.md);
 
+  const compact = !screens.md; // phones: no separate rank column, rank sits in front of the name
+  const rankText = (row) => (row.totalWins > 0 ? row.rank : '–');
+
   const columns = [
-    {
-      title: '',
-      key: 'rank',
-      width: 48,
-      align: 'center',
-      fixed: 'left',
-      className: 'col-rank',
-      render: (_, row) => (row.totalWins > 0 ? row.rank : '–'),
-    },
+    ...(compact
+      ? []
+      : [
+          {
+            title: '',
+            key: 'rank',
+            width: 40,
+            align: 'center',
+            fixed: 'left',
+            className: 'col-rank',
+            render: (_, row) => rankText(row),
+          },
+        ]),
     {
       title: 'Manager',
-      dataIndex: 'managerName',
       key: 'manager',
-      width: 110,
+      width: compact ? 88 : 84,
       fixed: 'left',
       className: 'col-manager',
+      render: (_, row) => (
+        <>
+          {compact && <span className="mgr-rank">{rankText(row)}</span>}
+          {row.managerName}
+        </>
+      ),
     },
-    ...[0, 1, 2].map((i) => teamGroup(i, withRecord)),
     {
-      title: 'Total wins',
+      title: 'Total',
       dataIndex: 'totalWins',
       key: 'totalWins',
       align: 'center',
-      width: 110,
+      width: 80,
       className: 'group-start col-total',
     },
+    ...[0, 1, 2].map((i) => teamGroup(i, withRecord)),
   ];
 
   return (
