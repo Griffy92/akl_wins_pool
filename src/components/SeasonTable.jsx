@@ -93,19 +93,20 @@ export default function SeasonTable({ rows, showRecord = false, loading = false 
       ),
     },
     {
-      title: 'Total',
+      title: showRecord ? 'Total W-L' : 'Total',
       dataIndex: 'totalWins',
       key: 'totalWins',
       align: 'center',
-      width: 80,
+      width: showRecord ? 100 : 80,
       className: 'group-start col-total',
       render: (wins, row) =>
         showRecord ? (
-          <span className="total-cell">
-            <span>{wins}</span>
-            <span className="total-cell__record" title="Combined wins-losses">
-              {wins}-{row.totalLoss ?? 0}
+          <span className="total-cell" title="Total wins and losses across all three teams">
+            <span>
+              {wins}
+              <span className="col-total__loss">-{row.totalLoss ?? 0}</span>
             </span>
+            <span className="total-cell__gp">{wins + (row.totalLoss ?? 0)} GP</span>
           </span>
         ) : (
           wins
