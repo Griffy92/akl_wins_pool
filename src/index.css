@@ -120,9 +120,21 @@ body {
 /* Team cell */
 .team-cell {
   display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: nowrap;
+}
+.team-cell__main {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  white-space: nowrap;
+}
+.team-cell__record {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
 }
 .team-cell__logo {
   width: 28px;
@@ -134,5 +146,6 @@ body {
   .site-header { padding: 0 12px; gap: 12px; }
   .page { padding-top: 20px; }
   .page-title { font-size: 2rem; }
+  .team-cell { align-items: center; }
   .team-cell__name { display: none; }
 }

@@ -4,7 +4,7 @@ import { formatPct } from '../lib/standings';
 
 const dash = (value) => value ?? '–';
 
-const teamGroup = (i, showRecord) => ({
+const teamGroup = (i, showRecord, inlineRecord) => ({
   title: `Team ${i + 1}`,
   className: 'group-start',
   children: [
@@ -18,7 +18,7 @@ const teamGroup = (i, showRecord) => ({
     {
       title: 'Team',
       key: `t${i}-team`,
-      render: (_, row) => <TeamCell team={row.teams[i]} />,
+      render: (_, row) => <TeamCell team={row.teams[i]} showRecord={inlineRecord} />,
     },
     {
       title: 'W',
@@ -56,6 +56,7 @@ const teamGroup = (i, showRecord) => ({
 export default function SeasonTable({ rows, showRecord = false, loading = false }) {
   const screens = Grid.useBreakpoint();
   const withRecord = showRecord && Boolean(screens.md);
+  const inlineRecord = showRecord && !withRecord; // small screens: W-L under the logo instead
 
   const compact = !screens.md; // phones: no separate rank column, rank sits in front of the name
   const rankText = (row) => (row.totalWins > 0 ? row.rank : '–');
@@ -95,7 +96,7 @@ export default function SeasonTable({ rows, showRecord = false, loading = false 
       width: 80,
       className: 'group-start col-total',
     },
-    ...[0, 1, 2].map((i) => teamGroup(i, withRecord)),
+    ...[0, 1, 2].map((i) => teamGroup(i, withRecord, inlineRecord)),
   ];
 
   return (
