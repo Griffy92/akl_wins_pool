@@ -2,6 +2,7 @@ import teamInfo from '../models/teams';
 import managers from '../models/managers';
 
 export const sumWins = (teams) => teams.reduce((total, t) => total + (t.wins ?? 0), 0);
+export const sumLosses = (teams) => teams.reduce((total, t) => total + (t.loss ?? 0), 0);
 
 // "2025-2026" -> "2025–2026"
 export const formatSeason = (year) => year.replace('-', '–');
@@ -19,6 +20,7 @@ export const seasonRows = (season) =>
       managerName: managers[m.managerId]?.name ?? 'Unknown',
       teams,
       totalWins: sumWins(teams),
+      totalLoss: sumLosses(teams),
     };
   });
 
@@ -35,23 +37,24 @@ export const addRanks = (rows) => {
   });
 };
 
-// Attach live standings ({ cbsName, wins, losses }[]) to rows without mutating them.
-// `missing` lists teams we couldn't find, so a CBS naming change shows up instead of silently reading 0.
+// Attach live standings ({ cbsAbbr, wins, losses }[]) to rows without mutating them.
+// `missing` lists teams we couldn't find, so a CBS change shows up instead of silently reading 0.
 export const mergeStandings = (rows, standings) => {
-  const byName = new Map(standings.map((s) => [s.cbsName, s]));
+  // entries without a team code can't be matched safely, so they're ignored
+  const byAbbr = new Map(standings.filter((s) => s.cbsAbbr).map((s) => [s.cbsAbbr, s]));
   const missing = new Set();
 
   const merged = rows.map((row) => {
     const teams = row.teams.map((t) => {
-      const s = byName.get(t.cbsName);
+      const s = t.cbsAbbr ? byAbbr.get(t.cbsAbbr) : undefined;
       if (!s) {
-        missing.add(t.cbsName);
+        missing.add(t.name);
         return t;
       }
       const games = s.wins + s.losses;
       return { ...t, wins: s.wins, loss: s.losses, winPercent: games ? s.wins / games : null };
     });
-    return { ...row, teams, totalWins: sumWins(teams) };
+    return { ...row, teams, totalWins: sumWins(teams), totalLoss: sumLosses(teams) };
   });
 
   return { rows: merged, missing: [...missing] };

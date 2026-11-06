@@ -20,13 +20,17 @@ const teamGroup = (i, showRecord, inlineRecord) => ({
       key: `t${i}-team`,
       render: (_, row) => <TeamCell team={row.teams[i]} showRecord={inlineRecord} />,
     },
-    {
-      title: 'W',
-      key: `t${i}-wins`,
-      className: 'col-num',
-      align: 'center',
-      render: (_, row) => dash(row.teams[i].wins),
-    },
+    ...(inlineRecord
+      ? []
+      : [
+          {
+            title: 'W',
+            key: `t${i}-wins`,
+            className: 'col-num',
+            align: 'center',
+            render: (_, row) => dash(row.teams[i].wins),
+          },
+        ]),
     ...(showRecord
       ? [
           {
@@ -95,6 +99,17 @@ export default function SeasonTable({ rows, showRecord = false, loading = false 
       align: 'center',
       width: 80,
       className: 'group-start col-total',
+      render: (wins, row) =>
+        showRecord ? (
+          <span className="total-cell">
+            <span>{wins}</span>
+            <span className="total-cell__record" title="Combined wins-losses">
+              {wins}-{row.totalLoss ?? 0}
+            </span>
+          </span>
+        ) : (
+          wins
+        ),
     },
     ...[0, 1, 2].map((i) => teamGroup(i, withRecord, inlineRecord)),
   ];
