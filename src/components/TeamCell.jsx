@@ -8,7 +8,7 @@ export default function TeamCell({ team, showRecord = false }) {
   return (
     <span className="team-cell" title={showRecord ? `${team.name} (${record})` : team.name}>
       <span className="team-cell__main">
-        <img className="team-cell__logo" src={`/${team.image}`} alt="" />
+      <img className="team-cell__logo" src={`/logos/${team.image}`} alt="" />
         <span className="team-cell__name">{team.name}</span>
       </span>
       {showRecord && <span className="team-cell__record">{record}</span>}
